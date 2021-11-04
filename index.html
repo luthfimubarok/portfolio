@@ -161,25 +161,11 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-md-6">
-            <div
-              class="
-                alert alert-success alert-dismissible
-                fade
-                show
-                d-none
-                my-alert
-              "
-              role="alert"
-            >
-              <strong>Terimakasih!</strong> Pesan anda sudah kami terima.
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="alert"
-                aria-label="Close"
-              ></button>
+            <div class="alert alert-success alert-dismissible fade show d-none my-alert" role="alert">
+              <strong>Terimakasih</strong> pesan anda sudah saya terima.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <form name="wpu-contact-form">
+            <form name="pesan">
               <div class="mb-3">
                 <label for="name" class="form-label">Nama Lengkap</label>
                 <input
@@ -209,22 +195,15 @@
                   name="pesan"
                 ></textarea>
               </div>
-              <button type="submit" class="btn btn-secondary btn-kirim">
+              <button type="submit" class="btn btn-secondary btn-kirim ">
                 Kirim
               </button>
-
-              <button
-                class="btn bg-dark btn-loading d-none"
-                type="button"
-                disabled
-              >
-                <span
-                  class="spinner-border spinner-border-sm"
-                  role="status"
-                  aria-hidden="true"
-                ></span>
+              <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Loading...
               </button>
+
+           
             </form>
           </div>
         </div>
@@ -257,5 +236,34 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+
+
+    <script>
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwHuUxaMT3c84fvq3ILe6MWu6pjKRdrP92RSKxQp3Hixl0RQ-0UKTkgfmgipiE3W_8Z-A/exec'
+      const form = document.forms['pesan']
+      const btnKirim = document.querySelector('.btn-kirim');
+      const btnLoading = document.querySelector('.btn-loading');
+      const myAlert = document.querySelector('.my-alert');
+    
+      form.addEventListener('submit', e => {
+        e.preventDefault()
+        //tampilkan loading hilangkan kirim
+        btnLoading.classList.toggle('d-none');
+        btnKirim.classList.toggle('d-none');
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+          .then((response) => {
+             // tampilkan btn kirim hilangkan btn loading
+          btnLoading.classList.toggle('d-none');
+          btnKirim.classList.toggle('d-none');
+          //tampilkan alert
+          myAlert.classList.toggle('d-none');
+
+          form.reset();
+          console.log('Success!', response);
+          })
+         
+          .catch(error => console.error('Error!', error.message))
+      })
+    </script>
   </body>
 </html>
